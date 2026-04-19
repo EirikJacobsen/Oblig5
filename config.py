@@ -1,8 +1,8 @@
 DB_CONFIG = {
     "host": "localhost",
-    "user": "root",
-    "password": "DITT_PASSORD",
-    "database": "oblig3_5tabeller"
+    "user": "Eirik",
+    "password": "StetindArt",
+    "database": "Oblig3_1"
 }
 
 SECRET_KEY = "superhemmelig_nokkel"
