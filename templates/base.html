@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>UtleieApp</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Hjem</a>
+        <a href="{{ url_for('kunder') }}">Kunder</a>
+        <a href="{{ url_for('utstyr') }}">Utstyr</a>
+        <a href="{{ url_for('ny_utleie') }}">Utleie</a>
+        <a href="{{ url_for('aktive_utleier') }}">Aktive utleier</a>
+        <a href="{{ url_for('statistikk') }}">Statistikk</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
