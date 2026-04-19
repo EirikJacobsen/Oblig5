@@ -111,3 +111,15 @@ Mappen `database/` inneholder SQL-filer for oppbygging av databasen samt tidsste
 - `oblig3.sql` – oppretter tabeller og legger inn testdata
 - `login_tabell.sql` – oppretter Login-tabell med brukere
 - `dump_YYYY-MM-DD_HH-MM-SS.sql` – periodiske dumps av hele databasen
+
+### Importere hele databasen fra en dump
+
+Hvis du har en ferdig dump (f.eks. `dump_2026-04-19_14-56-32.sql`) kan du gjenopprette hele databasen med én kommando:
+
+```bash
+mysql -u <bruker> -p < database/dump_YYYY-MM-DD_HH-MM-SS.sql
+```
+
+Dumpen inneholder `CREATE DATABASE` og `USE`-setninger, så databasen opprettes automatisk – du trenger ikke kjøre `oblig3.sql` eller `login_tabell.sql` separat.
+
+> **Merk:** Passordhashene i `Login`-tabellen er allerede inkludert i dumpen. Du trenger ikke generere nye passord etter import, med mindre du vil endre dem.
