@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Kunder</h1>
+<a href="{{ url_for('ny_kunde') }}" class="button">Ny kunde</a>
+<table>
+	<thead>
+		<tr>
+			<th>Navn</th>
+			<th>KundeNr</th>
+			<th>KundeType</th>
+			<th>Epost</th>
+			<th>Handling</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for kunde in kunder %}
+		<tr>
+			<td>{{ kunde.Kundenavn }}</td>
+			<td>{{ kunde.KundeNr }}</td>
+			<td>{{ kunde.KundeType }}</td>
+			<td>{{ kunde.KundeEpost }}</td>
+			<td>
+				<a href="{{ url_for('rediger_kunde', kundenr=kunde.KundeNr) }}">Rediger</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

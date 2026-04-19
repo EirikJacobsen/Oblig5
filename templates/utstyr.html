@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Utstyr</h1>
+<form method="get" style="margin-bottom:2rem;">
+	<label for="type">Type:</label>
+	<select name="type" id="type">
+		<option value="">Alle</option>
+		{% for t in typer %}
+		<option value="{{ t.UtstyrsType }}" {% if valgt_type == t.UtstyrsType %}selected{% endif %}>{{ t.UtstyrsType }}</option>
+		{% endfor %}
+	</select>
+	<label for="kategori">Kategori:</label>
+	<select name="kategori" id="kategori">
+		<option value="">Alle</option>
+		{% for k in kategorier %}
+		<option value="{{ k.Kategori }}" {% if valgt_kategori == k.Kategori %}selected{% endif %}>{{ k.Kategori }}</option>
+		{% endfor %}
+	</select>
+	<button type="submit">Filtrer</button>
+</form>
+<table>
+	<thead>
+		<tr>
+			<th>Merke</th>
+			<th>Modell</th>
+			<th>Type</th>
+			<th>Kategori</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for utstyr in utstyrsliste %}
+		<tr>
+			<td>{{ utstyr.UtstyrsMerke }}</td>
+			<td>{{ utstyr.UtstyrsModell }}</td>
+			<td>{{ utstyr.UtstyrsType }}</td>
+			<td>{{ utstyr.Kategori }}</td>
+			<td>{{ utstyr.Status }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

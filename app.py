@@ -3,8 +3,9 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import get_db_connection
 from config import SECRET_KEY
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.secret_key = SECRET_KEY
 
 login_manager = LoginManager()
@@ -149,6 +150,39 @@ def ny_kunde():
 
     return render_template("kunde_ny.html")
 
+@app.route("/kunder/<int:kundenr>/rediger", methods=["GET", "POST"])
+@login_required
+def rediger_kunde(kundenr):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    if request.method == "POST":
+        cursor.execute("""
+            UPDATE Kunde
+            SET Kundenavn = %s, KundeType = %s, KundeEpost = %s
+            WHERE KundeNr = %s
+        """, (
+            request.form["navn"],
+            request.form["kundetype"],
+            request.form["epost"],
+            kundenr
+        ))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return redirect(url_for("kunder"))
+
+    cursor.execute("SELECT * FROM Kunde WHERE KundeNr = %s", (kundenr,))
+    kunde = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if not kunde:
+        return redirect(url_for("kunder"))
+
+    return render_template("kunde_rediger.html", kunde=kunde)
+
+
 @app.route("/utstyr")
 @login_required
 def utstyr():
@@ -202,6 +236,9 @@ def ny_utleie():
     cursor = conn.cursor(dictionary=True)
 
     if request.method == "POST":
+        utstyr_key = request.form["utstyr_key"]
+        utstyrsmal_id, instans_id = utstyr_key.split("_", 1)
+        leveres_kunde = 1 if request.form["leveres_kunde"] == "Ja" else 0
         cursor.execute("""
             INSERT INTO Utleie (
                 UtleidDato, InnlevertDato, Betalingsmate, LeveresKunde,
@@ -210,10 +247,10 @@ def ny_utleie():
         """, (
             request.form["utleid_dato"],
             request.form["betalingsmate"],
-            request.form["leveres_kunde"],
+            leveres_kunde,
             request.form["leveringskostnad"],
-            request.form["utstyrsmal_id"],
-            request.form["instans_id"],
+            utstyrsmal_id,
+            instans_id,
             current_user.kundebehandler_id,
             request.form["kundenr"]
         ))
@@ -257,6 +294,32 @@ def registrer_innlevering(utleie_id):
     cursor.close()
     conn.close()
     return redirect(url_for("aktive_utleier"))
+
+@app.route("/aktive-utleier")
+@login_required
+def aktive_utleier():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            u.UtleieID,
+            k.Kundenavn,
+            um.UtstyrsMerke,
+            um.UtstyrsModell,
+            u.UtleidDato,
+            DATEDIFF(CURDATE(), u.UtleidDato) AS DagerUtleid
+        FROM Utleie u
+        JOIN Kunde k ON u.KundeNr = k.KundeNr
+        JOIN UtstyrsMal um ON u.UtstyrsMal_ID = um.UtstyrsMal_ID
+        WHERE u.InnlevertDato IS NULL
+        ORDER BY u.UtleidDato DESC
+    """)
+    aktive_utleier = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+    return render_template("aktive_utleier.html", aktive_utleier=aktive_utleier)
 
 @app.route("/statistikk")
 @login_required
@@ -307,3 +370,6 @@ def statistikk():
     cursor.close()
     conn.close()
     return render_template("statistikk.html", komplette=komplette, inntekt=inntekt, topp=topp)
+
+if __name__ == "__main__":
+    app.run(debug=True)

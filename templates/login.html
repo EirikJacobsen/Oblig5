@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Logg inn</h1>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <div class="flash-messages">
+        {% for message in messages %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endwith %}
+
+<form method="POST">
+    <div>
+        <label for="brukernavn">Brukernavn:</label>
+        <input type="text" id="brukernavn" name="brukernavn" required>
+    </div>
+
+    <div>
+        <label for="passord">Passord:</label>
+        <input type="password" id="passord" name="passord" required>
+    </div>
+
+    <button type="submit">Logg inn</button>
+</form>
+{% endblock %}

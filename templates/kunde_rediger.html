@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Rediger kunde</h1>
+<form method="POST">
+	<div>
+		<label for="navn">Navn</label>
+		<input type="text" id="navn" name="navn" value="{{ kunde.Kundenavn }}" required>
+	</div>
+	<div>
+		<label for="kundetype">KundeType</label>
+		<input type="text" id="kundetype" name="kundetype" value="{{ kunde.KundeType }}" required>
+	</div>
+	<div>
+		<label for="epost">Epost</label>
+		<input type="email" id="epost" name="epost" value="{{ kunde.KundeEpost }}">
+	</div>
+	<button type="submit">Oppdater</button>
+</form>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Ny utleie</h1>
+<form method="POST">
+	<div>
+		<label for="kundenr">Kunde</label>
+		<select id="kundenr" name="kundenr" required>
+			{% for kunde in kunder %}
+			<option value="{{ kunde.KundeNr }}">{{ kunde.Kundenavn }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div>
+		<label for="utstyr_key">Utstyr</label>
+		<select id="utstyr_key" name="utstyr_key" required>
+			{% for utstyr in ledig_utstyr %}
+			<option value="{{ utstyr.UtstyrsMal_ID }}_{{ utstyr.InstansID }}">{{ utstyr.UtstyrsMerke }} {{ utstyr.UtstyrsModell }} (instans {{ utstyr.InstansID }})</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div>
+		<label for="utleid_dato">Utleid dato</label>
+		<input type="date" id="utleid_dato" name="utleid_dato" required>
+	</div>
+	<div>
+		<label for="betalingsmate">Betalingsmåte</label>
+		<select id="betalingsmate" name="betalingsmate" required>
+			<option value="Kontant">Kontant</option>
+			<option value="Kort">Kort</option>
+			<option value="Faktura">Faktura</option>
+		</select>
+	</div>
+	<div>
+		<label for="leveres_kunde">Leveres til kunde</label>
+		<select id="leveres_kunde" name="leveres_kunde" required>
+			<option value="Ja">Ja</option>
+			<option value="Nei">Nei</option>
+		</select>
+	</div>
+	<div>
+		<label for="leveringskostnad">Leveringskostnad</label>
+		<input type="number" id="leveringskostnad" name="leveringskostnad" step="0.01" value="0" required>
+	</div>
+	<button type="submit">Registrer utleie</button>
+</form>
+{% endblock %}

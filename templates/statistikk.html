@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Statistikk</h1>
+<div class="stats">
+	<div class="stat-card">
+		<h2>{{ komplette.AntallKompletteUtleier }}</h2>
+		<p>Komplette utleier</p>
+	</div>
+	<div class="stat-card">
+		<h2>{{ topp.UtstyrsMerke }} {{ topp.UtstyrsModell }}</h2>
+		<p>Mest utleid utstyr</p>
+	</div>
+</div>
+<h2>Inntekt per utstyr</h2>
+<table>
+	<thead>
+		<tr>
+			<th>Merke</th>
+			<th>Modell</th>
+			<th>Type</th>
+			<th>Sum</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for item in inntekt %}
+		<tr>
+			<td>{{ item.UtstyrsMerke }}</td>
+			<td>{{ item.UtstyrsModell }}</td>
+			<td>{{ item.UtstyrsType }}</td>
+			<td>{{ item.SumPerUtstyr }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

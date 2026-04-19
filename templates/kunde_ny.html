@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Ny kunde</h1>
+<form method="POST">
+	<div>
+		<label for="kundenr">Kundenummer</label>
+		<input type="text" id="kundenr" name="kundenr" required>
+	</div>
+	<div>
+		<label for="kundenavn">Kundenavn</label>
+		<input type="text" id="kundenavn" name="kundenavn" required>
+	</div>
+	<div>
+		<label for="kundetype">Kundetype</label>
+		<input type="text" id="kundetype" name="kundetype" required>
+	</div>
+	<div>
+		<label for="kundeepost">Epost</label>
+		<input type="email" id="kundeepost" name="kundeepost">
+	</div>
+	<div>
+		<label for="levering_gate">Leveringsadresse - Gate</label>
+		<input type="text" id="levering_gate" name="levering_gate">
+	</div>
+	<div>
+		<label for="levering_gatenr">Leveringsadresse - Gatenummer</label>
+		<input type="text" id="levering_gatenr" name="levering_gatenr">
+	</div>
+	<div>
+		<label for="levering_postnr">Leveringsadresse - Postnummer</label>
+		<input type="text" id="levering_postnr" name="levering_postnr">
+	</div>
+	<div>
+		<label for="levering_poststed">Leveringsadresse - Poststed</label>
+		<input type="text" id="levering_poststed" name="levering_poststed">
+	</div>
+	<div>
+		<label for="faktura_gate">Fakturaaadresse - Gate</label>
+		<input type="text" id="faktura_gate" name="faktura_gate">
+	</div>
+	<div>
+		<label for="faktura_gatenr">Fakturaadresse - Gatenummer</label>
+		<input type="text" id="faktura_gatenr" name="faktura_gatenr">
+	</div>
+	<div>
+		<label for="faktura_postnr">Fakturaadresse - Postnummer</label>
+		<input type="text" id="faktura_postnr" name="faktura_postnr">
+	</div>
+	<div>
+		<label for="faktura_poststed">Fakturaadresse - Poststed</label>
+		<input type="text" id="faktura_poststed" name="faktura_poststed">
+	</div>
+	<button type="submit">Lagre</button>
+</form>
+{% endblock %}

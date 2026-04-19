@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Aktive utleier</h1>
+
+{% if aktive_utleier %}
+<table>
+    <thead>
+        <tr>
+            <th>Kunde</th>
+            <th>Utstyr</th>
+            <th>Utleid dato</th>
+            <th>Dager utleid</th>
+            <th>Handling</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for utleie in aktive_utleier %}
+        <tr>
+            <td>{{ utleie.Kundenavn }}</td>
+            <td>{{ utleie.UtstyrsMerke }} {{ utleie.UtstyrsModell }}</td>
+            <td>{{ utleie.UtleidDato }}</td>
+            <td>{{ utleie.DagerUtleid }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('registrer_innlevering', utleie_id=utleie.UtleieID) }}">
+                    <button type="submit">Innlever</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Ingen aktive utleier.</p>
+{% endif %}
+{% endblock %}

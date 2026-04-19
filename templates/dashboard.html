@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<div class="stats">
+    <div class="stat-card">
+        <h2>{{ aktive }}</h2>
+        <p>Aktive utleier</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ tilgjengelige }}</h2>
+        <p>Tilgjengelig utstyr</p>
+    </div>
+</div>
+
+<h2>Siste utleier</h2>
+{% if siste_utleier %}
+<table>
+    <thead>
+        <tr>
+            <th>Utleie ID</th>
+            <th>Dato</th>
+            <th>Kunde</th>
+            <th>Utstyr</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for utleie in siste_utleier %}
+        <tr>
+            <td>{{ utleie.UtleieID }}</td>
+            <td>{{ utleie.UtleidDato }}</td>
+            <td>{{ utleie.Kundenavn }}</td>
+            <td>{{ utleie.UtstyrsMerke }} {{ utleie.UtstyrsModell }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Ingen utleier registrert ennå.</p>
+{% endif %}
+{% endblock %}
